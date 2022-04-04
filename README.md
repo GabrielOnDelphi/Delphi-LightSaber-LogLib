@@ -1,6 +1,6 @@
 # Delphi-LightSaber---LogLib
 
-   A simple but effective visual log.  
+   A simple but effective visual log control/library.  
    The programmer can send messages to the log that will be shown or not, depending on the chousen verbosity level of the log (see Verbosity property).  
    There is a pre-defined form that holds the log. To show it, call CreateLogForm in FormLog.pas  
    The purpose is to have one single log window per application that will receive messages from the entire application.  
