@@ -12,3 +12,5 @@
 
 **Demo**  
 See https://github.com/GodModeUser/GUI-AutoSave for a compilable demo.  
+
+![](ScreenShot.png)
