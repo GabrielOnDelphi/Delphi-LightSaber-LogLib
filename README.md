@@ -1,4 +1,4 @@
-# Delphi-LightSaber---LogLib
+# Delphi-LightSaber - LogLib
 
    A simple but effective visual log control/library.  
    The programmer can send messages to the log that will be shown or not, depending on the chousen verbosity level of the log (see Verbosity property).  
@@ -9,3 +9,6 @@
      Supports several verbosity levels (verbose, info, warnings, errors, etc).  
      Receives only messages that are above the specified verbosity threshold.  
      For example, if the log is set to show only warnings and errors and you send a messages marked as "verbose", then the messages will not be shown.  
+
+**Demo**  
+See https://github.com/GodModeUser/GUI-AutoSave for a compilable demo.  
