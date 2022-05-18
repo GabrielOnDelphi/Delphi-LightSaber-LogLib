@@ -21,7 +21,8 @@ Each verbosity level is shown in a predefined color.
 The log can be saved to disk to a binary file so it can be restored on the next app startup.  
 
 **Demo**  
-See https://github.com/GodModeUser/GUI-AutoSave for a compilable demo.  
+See [https://github.com/GodModeUser/GUI-AutoSave](https://github.com/GodModeUser/Dephi-LightSaber-GUI_AutoSave) for a compilable demo.  
 
 
 ![](ScreenShot.png)
+
