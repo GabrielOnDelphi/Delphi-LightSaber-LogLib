@@ -6,25 +6,29 @@ UNIT FormLog;
    See Copyright.txt
 
    Visual log (window).
-   More details in FormLog.pas
+   More details in clLogUtils.pas
 
    Usage:
-     Call CreateLogForm as early as possible in your app and ReleaseLogForm as late as possible in your app.
+     Create AppData as early as possible in your app and
+     Free AppData as late as possible in your app. AppData will release the log also (old name ReleaseLogForm)
+
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
 
 USES
-  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls,
-  clRichLogTrack, clRichLog;
+  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, vcl.Dialogs,
+  clRichLogTrack, clRichLog, ccAppData;
 
 TYPE
   TfrmLog = class(TForm)
     Log        : TRichLog;
     Container  : TPanel;    { We use a container for all controls on this form so we can reparent them easily to another form }
     pnlBottom  : TPanel;
-    chkAutoOpen: TCheckBox;
     btnClear   : TButton;
+    chkAutoOpen: TCheckBox;
     trkLogVerb : TRichLogTrckbr;
     procedure btnClearClick(Sender: TObject);
     procedure LogError     (Sender: TObject);
@@ -32,12 +36,15 @@ TYPE
     procedure FormCreate   (Sender: TObject);
   end;
 
-{ Initialization }
-function  CreateLogForm: TfrmLog;
-procedure ReleaseLogForm;
-procedure ShowLog;
+TYPE
+  TAppDataEx= class(TAppData)
+  public
+    constructor Create(CONST aAppName: string); override;
+    destructor Destroy; override;
+  end;
 
-{ Utils }
+
+{ Quick Utils }
 procedure LogAddVerb (Mesaj: string);
 procedure LogAddHint (Mesaj: string);
 procedure LogAddInfo (Mesaj: string);
@@ -51,11 +58,15 @@ procedure LogAddEmptyRow;
 procedure LogClear;
 procedure LogSaveAsRtf(CONST FileName: string);
 
+procedure ShowLog(Center: Boolean= FALSE);
+
+
+
 
 IMPLEMENTATION {$R *.dfm}
 
 USES
-   ccIniFileVCL, ccAppdata;
+   ccCore, ccIniFileVCL;
 
 VAR
    frmLog: TfrmLog = NIL; // Keep this private
@@ -65,28 +76,11 @@ VAR
 {-------------------------------------------------------------------------------------------------------------
    MAIN FUNCTIONS
 -------------------------------------------------------------------------------------------------------------}
-
-{ Call this as soon as possible so it can catch all Log messages generated during app start up. A good place might be in your DPR file before Application.CreateForm(TMainForm, frmMain) }
-function CreateLogForm: TfrmLog;
-begin
- Assert(frmLog = NIL, 'frmLog already created!');
- frmLog:= TfrmLog.Create(NIL);
- Result:= frmLog;
- LoadForm(frmLog);
- Assert(Application.MainForm <> frmLog, 'The Log should not be the MainForm'); { Just in case: Make sure this is not the first form created }
-end;
-
-
-{ Call this as late as possible, on application shutdown }
-procedure ReleaseLogForm;
-begin
- FreeAndNil(frmLog);
-end;
-
-
-procedure ShowLog;
+procedure ShowLog(Center: Boolean= FALSE);
 begin
  frmLog.Show;
+ if Center
+ then CenterForm(frmLog{, Application.MainForm});
 end;
 
 
@@ -97,15 +91,15 @@ end;
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmLog.FormCreate(Sender: TObject);
 begin
- Log.Onwarn:= LogError; // Auto show form if we send an error msg to the log
- Log.OnError:= LogError; 
+ Log.Onwarn := LogError;               // Auto show form if we send an error msg to the log
+ Log.OnError:= LogError;
 end;
 
 
 procedure TfrmLog.FormDestroy(Sender: TObject);
 begin
  Container.Parent:= Self;
- if NOT ccAppdata.AppInitializing { We don't save anything if the start up was improper! }
+ if NOT ccAppdata.AppData.Initializing // We don't save anything if the start up was improper!
  then SaveForm(Self);
 end;
 
@@ -121,6 +115,39 @@ begin
  if chkAutoOpen.Checked
  then Show;
 end;
+
+
+
+
+
+
+{--------------------------------------------------------------------------------------------------
+   TAppDataEx
+
+   Tester: c:\Myprojects\Packages\CubicCommonControls\Demo\CubicCore\GUI Autosave\DemoCore.dpr
+--------------------------------------------------------------------------------------------------}
+constructor TAppDataEx.Create(CONST aAppName: string);
+begin
+  inherited Create(aAppName);
+
+ { Call this as soon as possible so it can catch all Log messages generated during app start up. A good place might be in your DPR file before Application.CreateForm(TMainForm, frmMain) }
+ Assert(frmLog = NIL, 'frmLog already created!');
+ frmLog:= TfrmLog.Create(NIL);
+ LoadForm(frmLog);
+ Assert(Application.MainForm <> frmLog, 'The Log should not be the MainForm'); { Just in case: Make sure this is not the first form created }
+end;
+
+
+
+
+
+destructor TAppDataEx.Destroy;
+begin
+  FreeAndNil(frmLog); { Call this as late as possible, on application shutdown }
+  inherited;
+end;
+
+
 
 
 
@@ -173,7 +200,7 @@ begin
  frmLog.Log.AddError(Mesaj);
 
  if frmLog.chkAutoOpen.Checked
- then ShowLog
+ then ShowLog;
 end;
 
 
@@ -215,6 +242,12 @@ begin
 end;
 
 
+
+initialization
+
+finalization
+  if frmLog <> nil
+  then ShowMessage('LogForm was not released!');
 
 
 

@@ -4,34 +4,34 @@ object frmLog: TfrmLog
   AlphaBlend = True
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Log'
-  ClientHeight = 482
-  ClientWidth = 687
+  ClientHeight = 515
+  ClientWidth = 722
   Color = clBtnFace
   DoubleBuffered = True
   ParentFont = True
-  OldCreateOrder = False
   Position = poDesigned
   ScreenSnap = True
   ShowHint = True
   SnapBuffer = 3
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Container: TPanel
     Left = 0
     Top = 0
-    Width = 687
-    Height = 482
+    Width = 722
+    Height = 515
     Align = alClient
     BevelOuter = bvNone
     ParentColor = True
     TabOrder = 0
+    ExplicitWidth = 718
+    ExplicitHeight = 514
     object Log: TRichLog
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 681
-      Height = 445
+      Width = 716
+      Height = 478
       Align = alClient
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -48,20 +48,23 @@ object frmLog: TfrmLog
       ScrollBars = ssBoth
       TabOrder = 1
       WordWrap = False
-      Zoom = 100
       OnError = LogError
+      ExplicitWidth = 712
+      ExplicitHeight = 477
     end
     object pnlBottom: TPanel
       Left = 0
-      Top = 451
-      Width = 687
+      Top = 484
+      Width = 722
       Height = 31
       Align = alBottom
       BevelOuter = bvNone
       ParentColor = True
       TabOrder = 0
+      ExplicitTop = 483
+      ExplicitWidth = 718
       DesignSize = (
-        687
+        722
         31)
       object chkAutoOpen: TCheckBox
         Left = 7
@@ -77,7 +80,7 @@ object frmLog: TfrmLog
       end
       object btnClear: TButton
         AlignWithMargins = True
-        Left = 616
+        Left = 651
         Top = 1
         Width = 68
         Height = 29
@@ -88,10 +91,11 @@ object frmLog: TfrmLog
         Caption = 'Clear'
         TabOrder = 1
         OnClick = btnClearClick
+        ExplicitLeft = 647
       end
       object trkLogVerb: TRichLogTrckbr
         AlignWithMargins = True
-        Left = 350
+        Left = 385
         Top = 3
         Width = 260
         Height = 25
@@ -110,6 +114,7 @@ object frmLog: TfrmLog
         TrackBar.TabOrder = 0
         Verbosity = lvInfos
         Log = Log
+        ExplicitLeft = 381
       end
     end
   end
