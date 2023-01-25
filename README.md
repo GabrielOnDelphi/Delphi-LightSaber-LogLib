@@ -23,6 +23,8 @@ The log can be saved to disk to a binary file so it can be restored on the next 
 **Demo**  
 See [https://github.com/GodModeUser/GUI-AutoSave](https://github.com/GodModeUser/Dephi-LightSaber-GUI_AutoSave) for a compilable demo.  
 
-
 ![](ScreenShot.png)
+
+The code was moved here:
+[https://github.com/GodModeUser/Delphi-LightSaber]
 
