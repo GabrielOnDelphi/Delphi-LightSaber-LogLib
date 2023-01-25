@@ -25,6 +25,7 @@ See [https://github.com/GodModeUser/GUI-AutoSave](https://github.com/GodModeUser
 
 ![](ScreenShot.png)
 
+**Update**  
 The code was moved here:
-[https://github.com/GodModeUser/Delphi-LightSaber]
+https://github.com/GodModeUser/Delphi-LightSaber
 
