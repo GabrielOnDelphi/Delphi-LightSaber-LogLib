@@ -25,7 +25,7 @@ See [https://github.com/GodModeUser/GUI-AutoSave](https://github.com/GodModeUser
 
 ![](ScreenShot.png)
 
-**Download the code**  
+**Downloading the code**  
 This repository is only a placeholder and source of information.
 The code will be downloaded from https://github.com/GodModeUser/Delphi-LightSaber
 
