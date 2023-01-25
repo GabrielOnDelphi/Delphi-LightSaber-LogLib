@@ -4,6 +4,9 @@ UNIT clVisLogUtils;
    CubicDesign
    2022.03
    See Copyright.txt
+
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
@@ -12,20 +15,20 @@ USES
    System.SysUtils, Vcl.Graphics, ccCore;
 
 TYPE
-  TLogVerb= (lvDebug, lvVerbose, lvHints {Default}, lvInfos, lvImportant, lvWarnings, lvErrors);  { Exista also 7 which is of type 'Msg' and it is always shown in log }
+  TLogVerbLvl= (lvDebug, lvVerbose, lvHints {Default}, lvInfos, lvImportant, lvWarnings, lvErrors);  { Exist also 7 which is of type 'Msg' and it is always shown in log }
 
 CONST
    DefaultVerbosity= lvInfos;
 
-function Verbosity2String(Verbosity: TLogVerb): string;
-function Verbosity2Color(Verbosity: TLogVerb): TColor;
+function Verbosity2String(Verbosity: TLogVerbLvl): string;
+function Verbosity2Color (Verbosity: TLogVerbLvl): TColor;
 
 
 IMPLEMENTATION
 
 
 
-function Verbosity2String(Verbosity: TLogVerb): string;
+function Verbosity2String(Verbosity: TLogVerbLvl): string;
 begin
  CASE Verbosity of
   lvDebug    : Result:= 'Debug';
@@ -41,7 +44,7 @@ begin
 end;
 
 
-function Verbosity2Color(Verbosity: TLogVerb): TColor;
+function Verbosity2Color(Verbosity: TLogVerbLvl): TColor;
 begin
  CASE Verbosity of
   lvDebug    : Result:= clSilverLight;

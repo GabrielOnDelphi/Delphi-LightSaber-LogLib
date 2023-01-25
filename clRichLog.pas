@@ -2,17 +2,13 @@ UNIT clRichLog;
 
 {=============================================================================================================
    CubicDesign
-   2022.03
+   2022-04-10
    See Copyright.txt
 
-   A (way too) simple but effective visual log.
-   The programmer can send messages to the log that will be shown or not, depending on the chousen verbosity level of the log (see Verbosity property).
-   There is a pre-defined form that holds the log. To show it, call CreateLogForm in FormLog.pas
-   The purpose is to have one single log window per application that will receive messages from the entire application.
-
-   //The log can be accessed via the AppLog global variable which is automatically assigned when the log is created.
-   //Because of this global var, you can have only one log per application!
-
+   A simple but effective visual log.
+     The programmer can send messages to the log that will be shown or not, depending on the chousen verbosity level of the log (see Verbosity property).
+     There is a pre-defined form that holds the log. To show it, call CreateLogForm in FormLog.pas
+     The purpose is to have one single log window per application that will receive messages from the entire application.
 
    Verbosity:
      Supports several verbosity levels (verbose, info, warnings, errors, etc)
@@ -24,6 +20,9 @@ UNIT clRichLog;
 
    Future plans:
      TRamLog even though fully functional, it is a bit outdated. The plan is to be replaced with VisLogRam.
+
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE

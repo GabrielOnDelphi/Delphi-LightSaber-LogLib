@@ -9,9 +9,8 @@ UNIT clRichLogTrack;
      Min= 1,      lvVerbose
      Max= 6       lvErrors
 
-   Tester: 
-         c:\MyProjects\Project Testers\NEW LOG tester\
-         c:\Delphi\CC\CommonControls\Tester Log\
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
@@ -54,6 +53,62 @@ Uses ccCore;
 constructor TRichLogTrckbr.Create(AOwner: TComponent);
 begin
  inherited Create(AOwner);             { Note: Don't set 'Parent:= Owner' in constructor. Details: http://stackoverflow.com/questions/6403217/how-to-set-a-tcustomcontrols-parent-in-create }
+ ControlState:= ControlState+ [csCreating];
+
+ if csLoading in ComponentState
+ then EmptyDummy;
+ if csReading in ComponentState
+ then EmptyDummy;
+ if csAncestor in ComponentState
+ then EmptyDummy;
+ if csWriting in ComponentState
+ then EmptyDummy;
+ if csDestroying in ComponentState
+ then EmptyDummy;
+ if csDesigning in ComponentState
+ then EmptyDummy;
+ if csUpdating in ComponentState
+ then EmptyDummy;
+ if csFixups in ComponentState
+ then EmptyDummy;
+ if csFreeNotification in ComponentState
+ then EmptyDummy;
+ if csInline in ComponentState
+ then EmptyDummy;
+ if csDesignInstance in ComponentState
+ then EmptyDummy;
+
+
+
+ if csAlignmentNeeded in ControlState
+ then EmptyDummy;
+ if csCreating in ControlState
+ then EmptyDummy;
+ if csClicked in ControlState
+ then EmptyDummy;
+
+ if csCustomPaint in ControlState
+ then EmptyDummy;
+
+ if csDestroyingHandle in ControlState
+ then EmptyDummy;
+
+ if csDocking in ControlState
+ then EmptyDummy;
+
+ if csFocusing in ControlState
+ then EmptyDummy;
+
+ if csLButtonDown in ControlState
+ then EmptyDummy;
+ if csPaintCopy in ControlState
+ then EmptyDummy;
+ if csPalette in ControlState
+ then EmptyDummy;
+ if csReadingState in ControlState
+ then EmptyDummy;
+
+
 
  VerboLabel:= TLabel.Create(Self);     { Freed by: Owner }
  VerboLabel.Parent:= Self;            { Here we can set the parent }
@@ -61,6 +116,15 @@ begin
  TrackBar:= TTrackBar.Create(Self);
  TrackBar.SetSubComponent(True);
  TrackBar.Parent:= Self;
+
+ TrackBar.Min        := 0;
+ TrackBar.Max        := Ord(lvErrors);                        { About enumerations: http://www.delphipages.com/forum/showthread.php?t=58129 }
+ TrackBar.Hint       := 'Hide all messages below this level';
+ TrackBar.Align      := alRight;
+ TrackBar.Name       := 'VerbosityTrackbar';                  { This control MUST have a name so I can save it to INI file }
+ TrackBar.OnChange   := TrackBarChange;
+ { Finally set the verbosity }
+ TrackBar.Position   := Ord(DefaultVerbosity);                { I need this to synchroniz Log's and track's verbosity. Cannot be moved to CreateWnd if I use LoadForm(). Must be after TrackBar.OnChange:= TrackBarChange }
 end;
 
 
@@ -84,22 +148,17 @@ begin
    VerboLabel.Alignment:= taCenter;
    VerboLabel.Hint     := 'Log verbosity' +#13#10+ 'Hide all messages below this level.';
    VerboLabel.Caption  := 'Log verbosity: '+ Verbosity2String(DefaultVerbosity);
-
-   TrackBar.Min        := 0;
-   TrackBar.Max        := Ord(lvErrors);                        { About enumerations: http://www.delphipages.com/forum/showthread.php?t=58129 }
-   TrackBar.Position   := Ord(DefaultVerbosity);                { I need this to synchroniz Log's and track's verbosity. Cannot be moved to CreateWnd if I use LoadForm() }
-   TrackBar.Hint       := 'Hide all messages below this level';
-   TrackBar.Align      := alRight;
-   TrackBar.Name       := 'VerbosityTrackbar';                  { This control MUST have a name so I can save it to INI file }
-   TrackBar.OnChange   := TrackBarChange;
   end;
+
+ ControlState:= ControlState- [csCreating];
 end;
 
 
 
 procedure TRichLogTrckbr.TrackBarChange(Sender: TObject);
 begin
- if NOT (csLoading in ComponentState) then { This is MANDATORY because when the project loads, the value of the trackbar may change BEFORE the DFM loader assigns the Log to this trackbar. In other words, crash when I load a DFM file that contains this control }
+ if NOT (csLoading in ComponentState)
+ AND NOT (csCreating in ControlState) then { This is MANDATORY because when the project loads, the value of the trackbar may change BEFORE the DFM loader assigns the Log to this trackbar. In other words, crash when I load a DFM file that contains this control }
   begin
    if Log = NIL
    then MesajError('No log assigned!')

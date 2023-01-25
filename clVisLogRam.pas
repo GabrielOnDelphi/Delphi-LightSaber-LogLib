@@ -2,7 +2,7 @@ UNIT clVisLogRam;
 
 {=============================================================================================================
    CubicDesign
-   2021.10.23
+   2022.04
    See Copyright.txt
 ==============================================================================================================
    Non-visual log.
@@ -14,21 +14,21 @@ UNIT clVisLogRam;
    Future plans
      TRamLog even though functional is a bit outdate. The plan is to be replaced with TVisRamLog
 
-   Tester: c:\MyProjects\Project Testers\NEW LOG tester\
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
 
 USES
-   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Grids,
-   clVisLogLines, clVisLogUtils;
+   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.ExtCtrls, clVisLogLines, clVisLogUtils;
 
 TYPE
   TVisRamLog = class(TObject)
    private
     procedure UpdateVisLog;
    protected
-     FVisLog: TStringGrid;
+     FVisLog: TPanel;  { This will be typecasted to TVisLog }
      function prepareString(CONST Msg: string): string;
    public
      Lines: TLogLines;
@@ -59,7 +59,7 @@ TYPE
      procedure SaveToFile  (CONST FullPath: string);
      function  LoadFromFile(CONST FullPath: string): Boolean;
 
-     procedure SetLog(Log: TStringGrid);
+     procedure SetVisLog(Log: TPanel);
   end;
 
 
@@ -303,7 +303,8 @@ begin
    Lines.ReadFromStream(Stream);
    Stream.ReadPadding(1024);
 
-   if FVisLog <> Nil then UpdateVisLog
+   if FVisLog <> Nil
+   then UpdateVisLog;
  FINALLY
    FreeAndNil(Stream);
  END;
@@ -325,8 +326,8 @@ begin
 end;
 
 
-
-procedure TVisRamLog.SetLog(Log: TStringGrid);
+{ If we call this manually, at runtime, we need to call UpdateVisLog after it, to transfer the content of the RamLog into the VisualLog }
+procedure TVisRamLog.SetVisLog(Log: TPanel);
 begin
  Assert(Log <> Nil, 'TVisRamLog is nil!');
  Assert(Log is TVisLog, 'The object provided is not TVisRamLog!');

@@ -6,9 +6,9 @@ UNIT clVisLogTrack;
    See Copyright.txt
 ==============================================================================================================
    For the new log (the one based on TStringGrid)
-   Tester: 
-         c:\MyProjects\Project Testers\NEW LOG tester\
-         c:\Delphi\CC\CommonControls\Tester Log\
+
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
@@ -26,8 +26,8 @@ TYPE
      Initialized : Boolean;
      FShowDebugMsg: Boolean;
      FVerbChanged: TNotifyEvent;
-     function  getVerbosity: TLogVerb;
-     procedure setVerbosity(Value: TLogVerb);
+     function  getVerbosity: TLogVerbLvl;
+     procedure setVerbosity(Value: TLogVerbLvl);
      procedure setLog(const Value: TVisLog);
      procedure setShowDebugMsg(const Value: Boolean);
    protected
@@ -39,7 +39,7 @@ TYPE
      property ShowDebugMsg  : Boolean       read FShowDebugMsg  write setShowDebugMsg default FALSE; { Allow the user to access the lowest (Debug) level }
      property TrackBar      : TTrackBar     read FTrackBar      write FTrackBar;
      property OnVerbChanged : TNotifyEvent  read FVerbChanged   write FVerbChanged;   { Triggered before deleting the content of a cell }
-     property Verbosity     : TLogVerb      read getVerbosity   write setVerbosity;
+     property Verbosity     : TLogVerbLvl      read getVerbosity   write setVerbosity;
      property Log           : TVisLog       read FLog           write setLog;
   end;
 
@@ -87,7 +87,7 @@ begin
    VerboLabel.Caption  := 'Log verbosity: '+ Verbosity2String(DefaultVerbosity);
 
    TrackBar.Min        := 1;
-   TrackBar.Max        := Integer(High(TLogVerb));                  { About enumerations: http://www.delphipages.com/forum/showthread.php?t=58129 }
+   TrackBar.Max        := Integer(High(TLogVerbLvl));                  { About enumerations: http://www.delphipages.com/forum/showthread.php?t=58129 }
    TrackBar.Position   := Ord(DefaultVerbosity);                { I need this to synchroniz Log's and track's verbosity. Cannot be moved to CreateWnd if I use LoadForm() }
    TrackBar.Hint       := 'Hide all messages below this level';
    TrackBar.Align      := alRight;
@@ -133,14 +133,14 @@ end;
 
 
 
-{ Returns the position of the trackbar as TLogVerb (instead of integer) }
-function TLogVisTrckbr.getVerbosity: TLogVerb;
+{ Returns the position of the trackbar as TLogVerbLvl (instead of integer) }
+function TLogVisTrckbr.getVerbosity: TLogVerbLvl;
 begin
- Result:= TLogVerb(TrackBar.Position);
+ Result:= TLogVerbLvl(TrackBar.Position);
 end;
 
 
-procedure TLogVisTrckbr.setVerbosity(Value: TLogVerb);
+procedure TLogVisTrckbr.setVerbosity(Value: TLogVerbLvl);
 begin
  TrackBar.Position:= Ord(Value);
 end;

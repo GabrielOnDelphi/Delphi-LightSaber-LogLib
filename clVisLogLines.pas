@@ -7,8 +7,8 @@ UNIT clVisLogLines;
 
    For the new log (the one based on TStringGrid)
 
-
-   Tester: c:\MyProjects\Project Testers\NEW LOG tester\
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
@@ -22,7 +22,7 @@ type
 
   RLogLine= record
    Msg   : string;
-   Level : TLogVerb;
+   Level : TLogVerbLvl;
    Indent: Integer;          { How many spaces are used to indent the message }
    Bold  : Boolean;
    Color : TColor;           { If -1 the use color specified in 'Level'. If > -1 then it overrides the color specified by 'Level' }
@@ -41,9 +41,9 @@ type
     procedure ReadFromStream(Stream: TCubicBuffStream);
     procedure WriteToStream (Stream: TCubicBuffStream);
 
-    function GetFilteredRow(Row: Integer; Verbosity: TLogVerb): Integer;        { Converts the 'on scree' row to its corresponding visible line. When LogVerbosity is set to max (Verbose) then the correspondence is 1:1 }
+    function GetFilteredRow(Row: Integer; Verbosity: TLogVerbLvl): Integer;        { Converts the 'on scree' row to its corresponding visible line. When LogVerbosity is set to max (Verbose) then the correspondence is 1:1 }
 
-    function AddNewLine(Msg: string; Level: TLogVerb; Bold: Boolean= FALSE; Color: TColor= -1): PLogLine;
+    function AddNewLine(Msg: string; Level: TLogVerbLvl; Bold: Boolean= FALSE; Color: TColor= -1): PLogLine;
     function Add(Value: PLogLine): Integer;
     property Items[Index: Integer]: PLogLine read Get; default;
   end;
@@ -86,7 +86,7 @@ end;
 
 
 
-function TLogLines.AddNewLine(Msg: string; Level: TLogVerb; Bold: Boolean= FALSE; Color: TColor= -1): PLogLine;
+function TLogLines.AddNewLine(Msg: string; Level: TLogVerbLvl; Bold: Boolean= FALSE; Color: TColor= -1): PLogLine;
 begin
  New(Result);
 
@@ -178,7 +178,7 @@ end;
 procedure RLogLine.ReadFromStream;
 begin
  Msg   := Stream.ReadStringU;
- Level := TLogVerb(Stream.ReadInteger);
+ Level := TLogVerbLvl(Stream.ReadInteger);
  Indent:= Stream.ReadInteger;
  Bold  := Stream.ReadBoolean;
  Color := Stream.ReadInteger;

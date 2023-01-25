@@ -7,15 +7,14 @@ UNIT clRamLog;
 
    A simple but effective log (non-visual).
    Its data can be displayed by TRichLog, but it can also work alone without being connected to a TRichLog.
-
-   Verbosity:
-     Supports several verbosity levels (verbose, info, warnings, errors, etc)
-     Receives only messages that are above the specified verbosity threshold.
-     For example, if the log is set to show only warnings and errors and you send a messages marked as "verbose", then the messages will not be shown.
+   More details in clLogUtils.pas
 
    Future plans:
      TRamLog even though fully functional, it is a bit awkwardly written (uses text to keep track of verbosity level of the messages).
      The plan is to be replaced with VisLogRam.
+
+   Tester:
+     c:\Myprojects\Packages\CubicCommonControls\Demo\LightLog\
 =============================================================================================================}
 
 INTERFACE
